@@ -27,7 +27,7 @@ struct DPVal {
     Status from;
 };
 
-Status array_sub(const Status& a, const Status& b) {
+Status interArraySub(const Status& a, const Status& b) {
     Status ret;
     for (size_t i=0; i<a.size(); ++i) {
         ret[i] = a[i] - b[i];
@@ -42,7 +42,7 @@ bool isValidStatus(const Status& a) {
     return true;
 }
 
-void dump_array(const Status& a) {
+void dumpArray(const Status& a) {
     for (const auto& elm: a) {
         std::cout << elm << " ";
     }
@@ -75,7 +75,7 @@ int main() {
         Status tmp;
 
         for (size_t i=0; i<products.size(); ++i) {
-            tmp = array_sub(cur_status, products[i]);
+            tmp = interArraySub(cur_status, products[i]);
             if (isValidStatus(tmp)) {
                 const int reward_sum = dp[cur_status].val + product_rewards[i];
                 if(dp[tmp].val < reward_sum) {
@@ -103,7 +103,7 @@ int main() {
     while(true) {
         Status bef_status = dp[st].from;
         if (st == bef_status) break;
-        const Status status_diff = array_sub(bef_status, st);
+        const Status status_diff = interArraySub(bef_status, st);
         bool did_find_same_status = false;
         for (size_t i=0; i<products.size(); ++i) {
             if (products[i] == status_diff) {
@@ -124,5 +124,5 @@ int main() {
     std::cout << made_each_product_num[3] << " Mirror" << std::endl;
     std::cout << made_each_product_num[4] << " Orb" << std::endl;    
     
-    // dump_array(best_status);
+    // dumpArray(best_status);
 }
